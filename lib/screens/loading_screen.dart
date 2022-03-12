@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wetterapp/Services/location.dart';
-import 'package:http/http.dart';
+import 'package:wetterapp/Services/networking.dart';
 
 class GeolocatorService {
   Future<Position?> determinePosition() async {
@@ -19,6 +19,8 @@ class GeolocatorService {
   }
 }
 
+const ApiKey = "eded64094ee170213ef960157d24a15f";
+
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
 
@@ -27,28 +29,26 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  late double address;
+  late double latitude;
 
-  void currentLocation() async {
-    Location location = Location();
-    await location.getCurrentLocation();
-    print(location.latitude);
-    print(location.longitude);
-  }
+  late double longitude;
 
-  void getData()async{
-    
- Response response=  await get(Uri.parse("http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=eded64094ee170213ef960157d24a15f"));
-print(response.statusCode);
-  }
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
+    currentLocationData();
   }
 
-
+  void currentLocationData() async {
+    Location location = Location();
+    await location.getCurrentLocation();
+    latitude = location.latitude;
+    longitude = location.longitude;
+    NetworkHelper networkHelper = NetworkHelper(
+        "http://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$ApiKey");
+    var weatherData = await networkHelper.getData();
+  }
 
   @override
   Widget build(BuildContext context) {
