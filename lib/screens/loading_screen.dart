@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wetterapp/Services/location.dart';
 import 'package:wetterapp/Services/networking.dart';
+import 'package:wetterapp/screens/location_screen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class GeolocatorService {
   Future<Position?> determinePosition() async {
@@ -29,13 +31,8 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  late double latitude;
-
-  late double longitude;
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     currentLocationData();
   }
@@ -43,22 +40,26 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void currentLocationData() async {
     Location location = Location();
     await location.getCurrentLocation();
-    latitude = location.latitude;
-    longitude = location.longitude;
+
     NetworkHelper networkHelper = NetworkHelper(
-        "http://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$ApiKey");
+        "http://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$ApiKey&units=metric");
     var weatherData = await networkHelper.getData();
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                LocationScreen(locationWeather: weatherData)));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: RaisedButton(
-          onPressed: () {},
-          child: Text(''),
-        ),
-      ),
+          child: SpinKitDoubleBounce(
+        color: Colors.white,
+        size: 100,
+      )),
     );
   }
 }

@@ -19,15 +19,15 @@ class WeatherModel {
     }
   }
 
-  String getMessage(int temp) {
-    if (temp > 25) {
+  String getMessage(int tempu) {
+    if (tempu > 25) {
       return 'It\'s 🍦 time';
-    } else if (temp > 20) {
-      return 'Time for shorts and 👕';
-    } else if (temp < 10) {
-      return 'You\'ll need 🧣 and 🧤';
+    } else if (tempu > 20) {
+      return 'Zeit für kurze Hosen und 👕';
+    } else if (tempu < 10) {
+      return 'Du brauchst 🧣 und 🧤';
     } else {
-      return 'Bring a 🧥 just in case';
+      return 'Bring ein 🧥 zur Sicherheit mit';
     }
   }
 }
