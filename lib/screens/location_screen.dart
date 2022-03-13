@@ -7,7 +7,7 @@ import 'package:wetterapp/screens/city_screen.dart';
 
 class LocationScreen extends StatefulWidget {
   final locationWeather;
-  const LocationScreen({Key? key, required this.locationWeather})
+  const LocationScreen({Key? key,  this.locationWeather})
       : super(key: key);
 
   @override
@@ -47,9 +47,13 @@ class _LocationScreenState extends State<LocationScreen> {
      });
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         leading: IconButton(
           onPressed: () async {
@@ -75,7 +79,8 @@ class _LocationScreenState extends State<LocationScreen> {
           ),
         ),
       ),
-      body: Container(
+      body:
+       Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: const AssetImage('lib/assets/location_background.jpg'),
@@ -87,9 +92,13 @@ class _LocationScreenState extends State<LocationScreen> {
         constraints: const BoxConstraints.expand(),
         child: SafeArea(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+               Text(
+                "in $cityName",
+                style: kMessageTextStyle,
+              ),
               Padding(
                 padding: EdgeInsets.only(left: 15.0),
                 child: Row(
@@ -97,7 +106,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      '$temp',
+                      '${temp} °C',
                       style: kTempTextStyle,
                     ),
                     Text(
@@ -107,10 +116,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   ],
                 ),
               ),
-              Text(
-                "in $cityName",
-                style: kMessageTextStyle,
-              ),
+             
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
@@ -123,6 +129,7 @@ class _LocationScreenState extends State<LocationScreen> {
           ),
         ),
       ),
+      
     );
   }
 }
